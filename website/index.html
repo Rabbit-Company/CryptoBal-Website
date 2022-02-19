@@ -1,0 +1,210 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>CryptoBal</title>
+	<meta name="description" content="Monitor your Crypto balance" />
+	<link rel="shortcut icon" type="image/png" href="images/logo.png"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/tailwind.min.css">
+	<link rel="stylesheet" href="css/index.css" />
+</head>
+<body>
+	<nav class="bg-gray-800">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="flex items-center justify-between h-16">
+				<div class="flex items-center">
+					<div class="flex-shrink-0">
+						<img class="block h-8 w-auto" src="images/logo.png" alt="Rabbit Company">
+					</div>
+					<div class="hidden sm:block sm:ml-6">
+						<div class="flex space-x-4">
+							<a href="index.html" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+							<a href="donation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Donation</a>
+							<a href="contact.html" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+						</div>
+					</div>
+				</div>
+				<div class="-mr-2 flex sm:hidden">
+					<button id="main-menu-btn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
+						<span class="sr-only">Open main menu</span>
+						<svg id="main-menu-icon" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+						</svg>
+					</button>
+				</div>
+			</div>
+		</div>
+	
+		<div class="sm:hidden hidden" id="mobile-menu">
+			<div class="px-2 pt-2 pb-3 space-y-1">
+				<a href="index.html" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+				<a href="donation.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Donation</a>
+				<a href="contact.html" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+			</div>
+		</div>
+	</nav>
+
+	<main>
+    <div class="pt-10 bg-gray-900 sm:pt-16 lg:pt-8 lg:pb-14 lg:overflow-hidden">
+      <div class="mx-auto max-w-7xl lg:px-8">
+        <div class="lg:grid lg:grid-cols-2 lg:gap-8">
+          <div class="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 sm:text-center lg:px-0 lg:text-left lg:flex lg:items-center">
+            <div class="lg:py-24">
+              <a href="https://github.com/Rabbit-Company" target="_blank" class="inline-flex items-center text-white bg-black rounded-full p-1 pr-2 sm:text-base lg:text-sm xl:text-base hover:text-gray-200">
+                <span class="px-3 py-0.5 text-white text-xs font-semibold leading-5 uppercase tracking-wide bg-indigo-500 rounded-full">We're open source</span>
+                <span class="ml-4 text-sm">Visit our Github page</span>
+                <svg class="ml-2 w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+              </a>
+              <h1 class="mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
+                <span class="block">Monitor your <span class="text-indigo-500">Crypto balance</span> today!</span>
+              </h1>
+            </div>
+          </div>
+          <div class="mt-12 -mb-16 sm:-mb-48 lg:m-0 lg:relative">
+            <div class="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0">
+              <img class="w-full lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-auto lg:max-w-none" src="images/crypto_balance.svg" alt="Crypto Balance">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+	<div class="relative bg-gray-800">
+		<div class="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
+			<h2 class="text-3xl text-white tracking-tight sm:text-4xl">What cryptocurrencies do you hold and how much?</h2>
+			<div class="mt-6">
+				<div class="mt-2 flex rounded-md">
+					<input type="text" name="crypto" id="crypto" class="block py-2 max-w-min text-gray-400 placeholder-gray-500 bg-gray-700 rounded-l-md pl-4 sm:text-sm focus:outline-none" placeholder="Symbol">
+					<input type="text" name="amount" id="amount" class="block py-2 text-gray-400 placeholder-gray-500 bg-gray-700 pl-4 sm:text-sm border border-gray-700 border-l-gray-600 focus:outline-none" placeholder="Amount">
+					<button type="button" id="add-btn" class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-700 text-sm font-medium rounded-r-md text-gray-400 border-l-gray-600 bg-gray-700 hover:bg-gray-600 focus:outline-none">Add</button>
+				</div>
+			</div>
+
+			<h2 class="text-3xl mt-12 text-white tracking-tight sm:text-4xl">Added cryptocurrencies</h2>
+			<div class="max-w-md mt-6 flex flex-col">
+				<div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+					<div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+						<div class="shadow overflow-hidden border-b border-gray-600 sm:rounded-lg">
+							<table class="min-w-full divide-y divide-gray-600">
+								<thead class="bg-gray-700">
+									<tr>
+										<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Logo</th>
+										<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
+										<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+										<th scope="col" class="relative px-6 py-3">
+											<span class="sr-only">Remove</span>
+										</th>
+									</tr>
+								</thead>
+								<tbody id="cryptos" class="bg-gray-700 divide-y divide-gray-600">
+									<tr>
+										<td class="px-6 py-4 whitespace-nowrap">
+											<div class="flex items-center">
+												<div class="flex-shrink-0 h-10 w-10">
+													<img class="h-10 w-10 rounded-full" src="images/cryptos/BTC.png" alt="BTC">
+												</div>
+											</div>
+										</td>
+										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">BTC</td>
+										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">0.0001</td>
+										<td class="px-6 py-4 whitespace-nowrap text-right">
+											<button id="remove-BTC" type="button" class="inline-flex items-center px-3 py-2 border border-gray-600 text-sm leading-4 font-medium rounded-md shadow-sm text-gray-400 bg-gray-700 hover:bg-gray-600 focus:outline-none">Remove</button>
+										</td>
+									</tr>
+
+									<tr>
+										<td class="px-6 py-4 whitespace-nowrap">
+											<div class="flex items-center">
+												<div class="flex-shrink-0 h-10 w-10">
+													<img class="h-10 w-10 rounded-full" src="images/cryptos/BTC.png" alt="BTC">
+												</div>
+											</div>
+										</td>
+										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">BTC</td>
+										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">0.0001</td>
+										<td class="px-6 py-4 whitespace-nowrap text-right">
+											<button id="remove-BTC" type="button" class="inline-flex items-center px-3 py-2 border border-gray-600 text-sm leading-4 font-medium rounded-md shadow-sm text-gray-400 bg-gray-700 hover:bg-gray-600 focus:outline-none">Remove</button>
+										</td>
+									</tr>
+			
+									<!-- More people... -->
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="monitor.html" type="button" class="inline-flex mt-12 items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none">Monitor</a>
+		</div>
+	</div>
+
+	<footer class="bg-gray-900">
+		<div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+			<nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
+				<div class="px-5 py-2">
+					<a href="index.html" class="text-base text-gray-300 hover:text-gray-500">
+						Home
+					</a>
+				</div>
+	
+				<div class="px-5 py-2">
+					<a href="https://rabbit-company.com/projects.html" class="text-base text-gray-300 hover:text-gray-500">
+						Projects
+					</a>
+				</div>
+	
+				<div class="px-5 py-2">
+					<a href="donation.html" class="text-base text-gray-300 hover:text-gray-500">
+						Donation
+					</a>
+				</div>
+	
+				<div class="px-5 py-2">
+					<a href="contact.html" class="text-base text-gray-300 hover:text-gray-500">
+						Contact
+					</a>
+				</div>
+			</nav>
+			<div class="mt-8 flex justify-center space-x-6">
+	
+        <a href="https://discord.rabbit-company.com" target="_blank" class="text-gray-400 hover:text-gray-500">
+					<span class="sr-only">Discord</span>
+					<svg class="h-6 w-6" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <circle cx="9" cy="12" r="1" />
+            <circle cx="15" cy="12" r="1" />
+            <path d="M7.5 7.5c3.5 -1 5.5 -1 9 0" />
+            <path d="M7 16.5c3.5 1 6.5 1 10 0" />
+            <path d="M15.5 17c0 1 1.5 3 2 3c1.5 0 2.833 -1.667 3.5 -3c.667 -1.667 .5 -5.833 -1.5 -11.5c-1.457 -1.015 -3 -1.34 -4.5 -1.5l-1 2.5" />
+            <path d="M8.5 17c0 1 -1.356 3 -1.832 3c-1.429 0 -2.698 -1.667 -3.333 -3c-.635 -1.667 -.476 -5.833 1.428 -11.5c1.388 -1.015 2.782 -1.34 4.237 -1.5l1 2.5" />
+          </svg>
+				</a>
+
+				<a href="https://github.com/Rabbit-Company" target="_blank" class="text-gray-400 hover:text-gray-500">
+					<span class="sr-only">GitHub</span>
+					<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+						<path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+					</svg>
+				</a>
+
+				<a href="https://twitter.com/RabbitCompany66" target="_blank" class="text-gray-400 hover:text-gray-500">
+					<span class="sr-only">Twitter</span>
+					<svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+						<path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+					</svg>
+				</a>
+
+			</div>
+			<p class="mt-8 text-center text-base text-gray-400">
+				&copy; 2022 <a class="text-blue-400" target="_blank" href="https://rabbit-company.com">Rabbit Company LLC</a>, All rights reserved.
+			</p>
+		</div>
+	</footer>
+	<script src="js/default.js"></script>
+	<script src="js/index.js"></script>
+</body>
+</html>

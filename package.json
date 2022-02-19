@@ -1,0 +1,22 @@
+{
+  "name": "cryptobal",
+  "version": "1.0.0",
+  "description": "Website for monitoring your crypto balance",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tailwindcss -i ./tailwind.css -o ./website/css/tailwind.min.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rabbit-Company/RabbitCompany-Website.git"
+  },
+  "author": "Rabbit Company LLC",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/Rabbit-Company/RabbitCompany-Website/issues"
+  },
+  "homepage": "https://github.com/Rabbit-Company/RabbitCompany-Website#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.0.22"
+  }
+}
