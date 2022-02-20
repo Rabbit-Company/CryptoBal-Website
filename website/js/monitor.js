@@ -61,4 +61,35 @@ function updateAssets(){
 	}
 	document.getElementById("crypto-assets").innerHTML = html;
 	document.getElementById("total").innerText = "$" + total.toFixed(2);
+	updateChart();
+}
+
+Chart.defaults.color = "#c6cbd2";
+
+var chartData = {
+	type: "line",
+	data: {
+		labels: [],
+		datasets: [
+			{
+				label: "Total Assets",
+				backgroundColor: "#00ff00",
+				borderColor: "#1e894b",
+				data: []
+			},
+		]
+	},
+	options: {}
+};
+
+var chart = new Chart(
+	document.getElementById("chart"),
+	chartData
+);
+
+function updateChart(){
+	let date = new Date();
+	chartData.data.labels.push(String(date.getHours()).padStart(2, "0") + ":" + String(date.getMinutes()).padStart(2, "0") + ":" + String(date.getSeconds()).padStart(2, "0"));
+	chartData.data.datasets[0].data.push(total);
+	chart.update();
 }
