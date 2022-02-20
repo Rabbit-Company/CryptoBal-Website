@@ -78,8 +78,8 @@
 			<h2 class="text-3xl text-white tracking-tight sm:text-4xl">What cryptocurrencies do you hold and how much?</h2>
 			<div class="mt-6">
 				<div class="mt-2 flex rounded-md">
-					<input type="text" name="crypto" id="crypto" class="block py-2 max-w-min text-gray-400 placeholder-gray-500 bg-gray-700 rounded-l-md pl-4 sm:text-sm focus:outline-none" placeholder="Symbol">
-					<input type="text" name="amount" id="amount" class="block py-2 text-gray-400 placeholder-gray-500 bg-gray-700 pl-4 sm:text-sm border border-gray-700 border-l-gray-600 focus:outline-none" placeholder="Amount">
+					<input type="text" name="crypto" id="crypto" class="block py-2 max-w-[10em] text-gray-400 placeholder-gray-500 bg-gray-700 rounded-l-md pl-4 sm:text-sm focus:outline-none" placeholder="Symbol">
+					<input type="text" name="amount" id="amount" class="block py-2 max-w-[10em] text-gray-400 placeholder-gray-500 bg-gray-700 pl-4 sm:text-sm border border-gray-700 border-l-gray-600 focus:outline-none" placeholder="Amount">
 					<button type="button" id="add-btn" class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-700 text-sm font-medium rounded-r-md text-gray-400 border-l-gray-600 bg-gray-700 hover:bg-gray-600 focus:outline-none">Add</button>
 				</div>
 			</div>
@@ -92,46 +92,15 @@
 							<table class="min-w-full divide-y divide-gray-600">
 								<thead class="bg-gray-700">
 									<tr>
-										<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Logo</th>
-										<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
-										<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-										<th scope="col" class="relative px-6 py-3">
+										<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Logo</th>
+										<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Symbol</th>
+										<th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+										<th scope="col" class="relative px-4 py-3">
 											<span class="sr-only">Remove</span>
 										</th>
 									</tr>
 								</thead>
 								<tbody id="cryptos" class="bg-gray-700 divide-y divide-gray-600">
-									<tr>
-										<td class="px-6 py-4 whitespace-nowrap">
-											<div class="flex items-center">
-												<div class="flex-shrink-0 h-10 w-10">
-													<img class="h-10 w-10 rounded-full" src="images/cryptos/BTC.png" alt="BTC">
-												</div>
-											</div>
-										</td>
-										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">BTC</td>
-										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">0.0001</td>
-										<td class="px-6 py-4 whitespace-nowrap text-right">
-											<button id="remove-BTC" type="button" class="inline-flex items-center px-3 py-2 border border-gray-600 text-sm leading-4 font-medium rounded-md shadow-sm text-gray-400 bg-gray-700 hover:bg-gray-600 focus:outline-none">Remove</button>
-										</td>
-									</tr>
-
-									<tr>
-										<td class="px-6 py-4 whitespace-nowrap">
-											<div class="flex items-center">
-												<div class="flex-shrink-0 h-10 w-10">
-													<img class="h-10 w-10 rounded-full" src="images/cryptos/BTC.png" alt="BTC">
-												</div>
-											</div>
-										</td>
-										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">BTC</td>
-										<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-400">0.0001</td>
-										<td class="px-6 py-4 whitespace-nowrap text-right">
-											<button id="remove-BTC" type="button" class="inline-flex items-center px-3 py-2 border border-gray-600 text-sm leading-4 font-medium rounded-md shadow-sm text-gray-400 bg-gray-700 hover:bg-gray-600 focus:outline-none">Remove</button>
-										</td>
-									</tr>
-			
-									<!-- More people... -->
 								</tbody>
 							</table>
 						</div>
