@@ -79,7 +79,15 @@ var chartData = {
 			},
 		]
 	},
-	options: {}
+	options: {
+		elements: {
+			point:{
+				radius: 0,
+				hitRadius: 10,
+				hoverRadius: 5
+			}
+		}
+	}
 };
 
 var chart = new Chart(
