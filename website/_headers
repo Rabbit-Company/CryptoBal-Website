@@ -1,7 +1,0 @@
-/*
-  X-Frame-Options: DENY
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: no-referrer
-  X-XSS-Protection: 1; mode=block
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://pagead2.googlesyndication.com; style-src 'self'; object-src 'none'; base-uri 'self'; connect-src https://api.binance.com; font-src 'self'; frame-src 'self' https://googleads.g.doubleclick.net; img-src 'self'; manifest-src 'self'; media-src 'self'; worker-src 'none'; frame-ancestors 'none';
-  Permissions-Policy: interest-cohort=()
