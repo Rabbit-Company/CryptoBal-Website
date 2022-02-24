@@ -9,6 +9,13 @@ window.setInterval(function() {
 	fetchPrices();
 }, 5000);
 
+function isCrypto(text){
+	if(typeof(text) == 'undefined') return false;
+	if(!text.match(/^[A-Za-z]+$/)) return false;
+	if(!(text.length >= 3 && text.length <= 6)) return false;
+	return true;
+}
+
 function fetchPrices(){
 	fetch("https://api.binance.com/api/v3/ticker/price")
 	.then(response => {
@@ -32,7 +39,7 @@ function getPrices(){
 	updateAssets();
 }
 
-let cryptos = Object.keys(localStorage);
+let cryptos = Object.keys(localStorage).filter(isCrypto);
 
 let html = "";
 cryptos.forEach(crypto => {
