@@ -1,6 +1,11 @@
+var parms = new URLSearchParams(window.location.search);
+
 var jsonPrices = fetchPrices();
 var lastPrices = new Map();
 var prices = new Map();
+
+var chart;
+var graph = (parms.get("graph") == "disabled") ? false : true;
 
 var lastTotal = 0;
 var total = 0;
@@ -68,7 +73,7 @@ function updateAssets(){
 	}
 	document.getElementById("crypto-assets").innerHTML = html;
 	document.getElementById("total").innerText = "$" + total.toFixed(2);
-	updateChart();
+	if(graph) updateChart();
 }
 
 Chart.defaults.color = "#c6cbd2";
@@ -97,10 +102,8 @@ var chartData = {
 	}
 };
 
-var chart = new Chart(
-	document.getElementById("chart"),
-	chartData
-);
+if(!graph) document.getElementById("graph").innerHTML = "";
+if(graph) chart = new Chart(document.getElementById("chart"), chartData);
 
 function updateChart(){
 	let date = new Date();
