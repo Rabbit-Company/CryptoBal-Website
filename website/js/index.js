@@ -34,6 +34,9 @@ document.getElementById("add-btn").addEventListener('click', () => {
 	let crypto = document.getElementById("crypto").value;
 	let amount = document.getElementById("amount").value;
 
+	document.getElementById("crypto").value = "";
+	document.getElementById("amount").value = "";
+
 	if(typeof(crypto) == 'undefined') return;
 	if(!crypto.match(/^[A-Za-z]+$/)) return;
 	if(!(crypto.length >= 3 && crypto.length <= 6)) return;
