@@ -44,7 +44,7 @@ function getPrices(){
 	updateAssets();
 }
 
-let cryptos = Object.keys(localStorage).filter(isCrypto);
+let cryptos = Object.keys(localStorage).filter(isCrypto).sort();
 
 let html = "";
 cryptos.forEach(crypto => {
