@@ -4,21 +4,58 @@ var jsonPrices = fetchPrices();
 var lastPrices = new Map();
 var prices = new Map();
 
-var chart;
-var graph = (parms.get("graph") == "disabled") ? false : true;
+const IsNumeric = (num) => /^-{0,1}\d*\.{0,1}\d+$/.test(num);
 
+// Settings
+var chart;
+var sWebSockets = (parms.get("webSockets") == "true") ? true : false;
+var sFetch = (IsNumeric(parms.get("fetch"))) ? parseFloat(parms.get("fetch")) : 5; 
+var sGraph = (parms.get("graph") == "false") ? false : true;
+var sGraphReset = (IsNumeric(parms.get("graphReset"))) ? parseFloat(parms.get("graphReset")) : 1;
+
+// Price
 var lastTotal = 0;
 var total = 0;
 
-window.setInterval(function() {
-	fetchPrices();
-}, 5000);
+if(!sWebSockets){
+	window.setInterval(function() {
+		fetchPrices();
+	}, sFetch * 1000);
+}
+
+if(sGraph){
+	window.setInterval(function() {
+		resetChart();
+	}, sGraphReset * 86400000);
+}
 
 function isCrypto(text){
 	if(typeof(text) == 'undefined') return false;
 	if(!text.match(/^[A-Za-z]+$/)) return false;
 	if(!(text.length >= 3 && text.length <= 6)) return false;
 	return true;
+}
+
+if(sWebSockets){
+	const socket = new WebSocket('wss://fstream.binance.com/ws/!markPrice@arr@1s');
+
+	socket.addEventListener('open', function (event) {
+		socket.send('{"method": "SUBSCRIBE","id": 1}');
+	});
+	
+	socket.addEventListener('message', function (event) {
+		jsonPrices = JSON.parse(event.data);
+		cryptos.forEach(crypto => {
+			for(let i = 0; i < jsonPrices.length; i++){
+				let symbol = crypto + "USDT";
+				let symbol2 = jsonPrices[i].s;
+				if(symbol != symbol2) continue;
+				lastPrices.set(crypto, prices.get(crypto));
+				prices.set(crypto, jsonPrices[i].p);
+			}
+		});
+		updateAssets();
+	});
 }
 
 function fetchPrices(){
@@ -73,7 +110,7 @@ function updateAssets(){
 	}
 	document.getElementById("crypto-assets").innerHTML = html;
 	document.getElementById("total").innerText = "$" + total.toFixed(2);
-	if(graph) updateChart();
+	if(sGraph) updateChart();
 }
 
 Chart.defaults.color = "#c6cbd2";
@@ -102,12 +139,19 @@ var chartData = {
 	}
 };
 
-if(!graph) document.getElementById("graph").innerHTML = "";
-if(graph) chart = new Chart(document.getElementById("chart"), chartData);
+if(!sGraph) document.getElementById("graph").innerHTML = "";
+if(sGraph) chart = new Chart(document.getElementById("chart"), chartData);
 
 function updateChart(){
 	let date = new Date();
 	chartData.data.labels.push(String(date.getHours()).padStart(2, "0") + ":" + String(date.getMinutes()).padStart(2, "0") + ":" + String(date.getSeconds()).padStart(2, "0"));
 	chartData.data.datasets[0].data.push(total);
+	chart.update();
+}
+
+function resetChart(){
+	if(!sGraph) return;
+	chartData.data.labels = [];
+	chartData.data.datasets[0].data = [];
 	chart.update();
 }
