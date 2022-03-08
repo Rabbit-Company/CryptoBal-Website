@@ -42,6 +42,11 @@ if(sWebSockets){
 
 	socket.addEventListener('open', function (event) {
 		socket.send('{"method": "SUBSCRIBE","id": 1}');
+		console.log("WebSocket oppened at " + new Date().toLocaleString());
+	});
+
+	socket.addEventListener('close', function (event) {
+		console.log("WebSocket closed at " + new Date().toLocaleString());
 	});
 	
 	socket.addEventListener('message', function (event) {
