@@ -22,6 +22,11 @@ function toggleSwitch(id){
 	animation.className = "translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-gray-100 shadow transform ring-0 transition ease-in-out duration-200";
 }
 
+function getSwitchState(id){
+    let button = document.getElementById(id + "-btn");
+    return (button.ariaChecked == "true") ? true : false;
+}
+
 function copyToClipboard(text){
     let textArea = document.createElement("textarea");
     textArea.value = text;

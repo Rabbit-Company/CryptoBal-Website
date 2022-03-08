@@ -37,7 +37,8 @@ function isCrypto(text){
 }
 
 if(sWebSockets){
-	const socket = new WebSocket('wss://fstream.binance.com/ws/!markPrice@arr@1s');
+	let stream = (sFetch == 1) ? "!markPrice@arr@1s" : "!markPrice@arr";
+	const socket = new WebSocket('wss://fstream.binance.com/ws/' + stream);
 
 	socket.addEventListener('open', function (event) {
 		socket.send('{"method": "SUBSCRIBE","id": 1}');
