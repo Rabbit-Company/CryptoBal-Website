@@ -36,17 +36,19 @@ function isCrypto(text){
 	return true;
 }
 
-if(sWebSockets){
+if(sWebSockets) startWebSocket();
+
+function startWebSocket(){
 	let stream = (sFetch == 1) ? "!markPrice@arr@1s" : "!markPrice@arr";
 	const socket = new WebSocket('wss://fstream.binance.com/ws/' + stream);
 
 	socket.addEventListener('open', function (event) {
-		socket.send('{"method": "SUBSCRIBE","id": 1}');
 		console.log("WebSocket oppened at " + new Date().toLocaleString());
 	});
 
 	socket.addEventListener('close', function (event) {
 		console.log("WebSocket closed at " + new Date().toLocaleString());
+		startWebSocket();
 	});
 	
 	socket.addEventListener('message', function (event) {
