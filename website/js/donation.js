@@ -1,20 +1,20 @@
 document.getElementById("btc-qr").addEventListener("click", () => {
-  copyToClipboard('bc1qchcpkcy6ga3dxwufvxuaf6qpdg4c6ryemmqfle');
+  copyToClipboard('bc1qjcj60rdve5nys72fy42f4yv6s8t34s7x3nh03d');
   alert('Bitcoin address copied to your clipboard!');
 });
 
 document.getElementById("eth-qr").addEventListener("click", () => {
-  copyToClipboard('0x16620E8f37520E25CED7915A4f538b97Fcd3E76C');
+  copyToClipboard('0xa4B2b80A4d5C577e1Ddb41096c2BD85D4A6e0bb7');
   alert('Ethereum address copied to your clipboard!');
 });
 
 document.getElementById("iota-qr").addEventListener("click", () => {
-  copyToClipboard('iota1qp7uzm3506rpkdu0rc29tx486x4mlxpsk9wjh87e9j4z7k00p4rfwsnsqu9');
+  copyToClipboard('iota1qrdx8hnpk9sdgswus5tj4hlgstjnqhsk7pfvvfp45v0y3wt22tjpjf347tp');
   alert('IOTA address copied to your clipboard!');
 });
 
 document.getElementById("xmr-qr").addEventListener("click", () => {
-  copyToClipboard('42SrwsGtg6mHErAKAjnkJbR4qziJ1ndBoid9s53cwEozN4xM9Ro3FKGGaqfCtdjJ1LFpRVCn8M26cURV76QDM6rX6s1m2zj');
+  copyToClipboard('8BmrgB8NGWhe8TSjNJDNMKgHrvxEQP1ZUDTWMNWA8CnKMpQjBjZhje1DPMmkbdNyMZESZDvHgMyufe5KPtLgy41Q8MTWnBE');
   alert('Monero address copied to your clipboard!');
 });
 
@@ -24,6 +24,6 @@ document.getElementById("dash-qr").addEventListener("click", () => {
 });
 
 document.getElementById("zec-qr").addEventListener("click", () => {
-  copyToClipboard('t1dVuXeSvuMrVPRcJ7hVNP7CLuvZoH8PbKz');
+  copyToClipboard('t1MGdKL7jcX9dGRThSyXBrkgy8wX6XH577i');
   alert('Zcash address copied to your clipboard!');
 });
