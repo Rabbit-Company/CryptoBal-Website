@@ -1,6 +1,6 @@
 {
   "name": "cryptobal",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Website for monitoring your crypto balance.",
   "main": "index.js",
   "scripts": {
@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/Rabbit-Company/CryptoBal#readme",
   "devDependencies": {
-    "tailwindcss": "^3.1.6"
+    "tailwindcss": "^3.1.8"
   }
 }
