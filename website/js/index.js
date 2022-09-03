@@ -9,7 +9,8 @@ function isCrypto(text){
 
 document.getElementById("start-btn").addEventListener('click', () => {
 	let url = "monitor.html";
-	url += "?webSockets=" + document.getElementById("webSockets-btn").ariaChecked;
+	url += "?exchange=" + document.getElementById("fetch-exchange").value;
+	url += "&webSockets=" + document.getElementById("webSockets-btn").ariaChecked;
 	url += "&fetch=" + document.getElementById("fetch-time").value;
 	url += "&graph=" + document.getElementById("graph-btn").ariaChecked;
 	url += "&graphReset=" + document.getElementById("graph-reset").value;
@@ -17,17 +18,18 @@ document.getElementById("start-btn").addEventListener('click', () => {
 	window.location = url;
 });
 
+document.getElementById("fetch-exchange").addEventListener('click', () => {
+	calculateSettings();
+});
+
 document.getElementById("webSockets-btn").addEventListener('click', () => {
 	toggleSwitch("webSockets");
-	if(getSwitchState("webSockets")){
-		document.getElementById("fetch-time").innerHTML = "<option value='1'>1 second</option><option value='3' selected>3 seconds</option>";
-	}else{
-		document.getElementById("fetch-time").innerHTML = "<option value='1'>1 second</option><option value='2'>2 seconds</option><option value='3'>3 seconds</option><option value='4'>4 seconds</option><option value='5' selected>5 seconds</option><option value='6'>6 seconds</option><option value='7'>7 seconds</option><option value='8'>8 seconds</option><option value='9'>9 seconds</option><option value='10'>10 seconds</option><option value='15'>15 seconds</option><option value='20'>20 seconds</option><option value='30'>30 seconds</option><option value='45'>45 seconds</option><option value='60'>60 seconds</option>";
-	}
+	calculateSettings();
 });
 
 document.getElementById("graph-btn").addEventListener('click', () => {
 	toggleSwitch("graph");
+	calculateSettings();
 });
 
 document.getElementById("add-btn").addEventListener('click', () => {
@@ -47,6 +49,19 @@ document.getElementById("add-btn").addEventListener('click', () => {
 	localStorage.setItem(crypto.toUpperCase(), amount);
 	updateTable();
 });
+
+function calculateSettings(){
+	if(getSwitchState("webSockets")){
+		if(document.getElementById("fetch-exchange").value == 1){
+			document.getElementById("fetch-time").innerHTML = "<option value='1'>1 second</option><option value='3' selected>3 seconds</option>";
+		}else{
+			document.getElementById("fetch-time").innerHTML = "<option value='0.1' selected>0.1 seconds</option>";
+			if(getSwitchState("graph")) toggleSwitch("graph");
+		}
+	}else{
+		document.getElementById("fetch-time").innerHTML = "<option value='1'>1 second</option><option value='2'>2 seconds</option><option value='3'>3 seconds</option><option value='4'>4 seconds</option><option value='5' selected>5 seconds</option><option value='6'>6 seconds</option><option value='7'>7 seconds</option><option value='8'>8 seconds</option><option value='9'>9 seconds</option><option value='10'>10 seconds</option><option value='15'>15 seconds</option><option value='20'>20 seconds</option><option value='30'>30 seconds</option><option value='45'>45 seconds</option><option value='60'>60 seconds</option>";
+	}
+}
 
 function updateTable(){
 	let cryptos = Object.keys(localStorage).filter(isCrypto).sort();

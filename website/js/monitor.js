@@ -10,10 +10,15 @@ const IsNumeric = (num) => /^-{0,1}\d*\.{0,1}\d+$/.test(num);
 
 // Settings
 var chart;
+var sExchange = (IsNumeric(parms.get("exchange"))) ? parseFloat(parms.get("exchange")) : 1;
 var sWebSockets = (parms.get("webSockets") == "true") ? true : false;
-var sFetch = (IsNumeric(parms.get("fetch"))) ? parseFloat(parms.get("fetch")) : 5; 
+var sFetch = (IsNumeric(parms.get("fetch"))) ? parseFloat(parms.get("fetch")) : 5;
 var sGraph = (parms.get("graph") == "false") ? false : true;
 var sGraphReset = (IsNumeric(parms.get("graphReset"))) ? parseFloat(parms.get("graphReset")) : 1;
+
+//Exchanges
+var baseURL = "https://api.binance.com/api/v3/ticker/price";
+if(sExchange == 2) baseURL = "https://api.kucoin.com/api/v1/market/allTickers";
 
 // Price
 var lastTotal = 0;
@@ -42,28 +47,73 @@ if(sWebSockets) startWebSocket();
 
 function startWebSocket(){
 	let stream = (sFetch == 1) ? "!markPrice@arr@1s" : "!markPrice@arr";
-	const socket = new WebSocket('wss://fstream.binance.com/ws/' + stream);
 
-	socket.addEventListener('open', function (event) {
-		console.log("WebSocket oppened at " + new Date().toLocaleString());
-	});
+	if(sExchange == 2){
+		let connectId = Math.random().toString(36).slice(2);
+		fetch("https://api.kucoin.com/api/v1/bullet-public", { method: 'POST' })
+		.then(response => {
+			if (response.ok) return response.json();
+		}).then(json => {
+			let token = json.data.token;
+			let pingInterval = json.data.instanceServers[0].pingInterval;
+			let endpoint = json.data.instanceServers[0].endpoint;
 
-	socket.addEventListener('close', function (event) {
-		console.log("WebSocket closed at " + new Date().toLocaleString());
-		startWebSocket();
-	});
-	
-	socket.addEventListener('message', function (event) {
-		jsonPrices = JSON.parse(event.data);
-		cryptos.forEach(crypto => {
-			for(let i = 0; i < stableCoins.length; i++){
-				if(webSocketGetPrice(jsonPrices, crypto, stableCoins[i])) break;
-				lastPrices.set(crypto, 0);
-				prices.set(crypto, 0);
-			}
+			let pairs = "";
+			cryptos.forEach(crypto => {
+				pairs += crypto + "-" + stableCoins[0] + ",";
+			});
+			pairs = pairs.slice(0, -1);
+
+			const socket = new WebSocket(endpoint + '?token=' + token + '&connectId=' + connectId);
+
+			socket.addEventListener('open', function (event) {
+				console.log("WebSocket oppened at " + new Date().toLocaleString());
+				socket.send('{ "id": "' + connectId + '","type": "subscribe","topic": "/market/ticker:' + pairs + '","response": true }');
+				window.setInterval(function() {
+					socket.send('{"id":"' + connectId + '","type":"ping"}');
+				}, pingInterval);
+			});
+		
+			socket.addEventListener('close', function (event) {
+				console.log("WebSocket closed at " + new Date().toLocaleString());
+			});
+
+			socket.addEventListener('message', function (event) {
+				let data = JSON.parse(event.data);
+				if(data.subject == "trade.ticker"){
+					let crypto = data.topic.replace("/market/ticker:", "").replace("-USDT", "");
+					let price = data.data.price;
+					
+					lastPrices.set(crypto, prices.get(crypto));
+					prices.set(crypto, price);
+					updateAssets();
+				}
+			});
+		}).catch();
+	}else{
+		const socket = new WebSocket('wss://fstream.binance.com/ws/' + stream);
+
+		socket.addEventListener('open', function (event) {
+			console.log("WebSocket oppened at " + new Date().toLocaleString());
 		});
-		updateAssets();
-	});
+	
+		socket.addEventListener('close', function (event) {
+			console.log("WebSocket closed at " + new Date().toLocaleString());
+			startWebSocket();
+		});
+		
+		socket.addEventListener('message', function (event) {
+			jsonPrices = JSON.parse(event.data);
+			cryptos.forEach(crypto => {
+				for(let i = 0; i < stableCoins.length; i++){
+					if(webSocketGetPrice(jsonPrices, crypto, stableCoins[i])) break;
+					lastPrices.set(crypto, 0);
+					prices.set(crypto, 0);
+				}
+			});
+			updateAssets();
+		});
+	}
 }
 
 function webSocketGetPrice(jsonPrices, crypto, fiat){
@@ -81,7 +131,7 @@ function webSocketGetPrice(jsonPrices, crypto, fiat){
 }
 
 function fetchPrices(){
-	fetch("https://api.binance.com/api/v3/ticker/price")
+	fetch(baseURL)
 	.then(response => {
 		if (response.ok) return response.json();
 	}).then(json => {
@@ -91,13 +141,22 @@ function fetchPrices(){
 }
 
 function getPrices(){
-	cryptos.forEach(crypto => {
-		for(let i = 0; i < stableCoins.length; i++){
-			if(getPrice(crypto, stableCoins[i])) break;
-			lastPrices.set(crypto, 0);
-			prices.set(crypto, 0);
-		}
-	});
+	if(sExchange == 2){
+		cryptos.forEach(crypto => {
+			if(!getKuCoinPrice(crypto, stableCoins[0])){
+				lastPrices.set(crypto, 0);
+				prices.set(crypto, 0);
+			}
+		});
+	}else{
+		cryptos.forEach(crypto => {
+			for(let i = 0; i < stableCoins.length; i++){
+				if(getPrice(crypto, stableCoins[i])) break;
+				lastPrices.set(crypto, 0);
+				prices.set(crypto, 0);
+			}
+		});
+	}
 	updateAssets();
 }
 
@@ -110,6 +169,20 @@ function getPrice(crypto, fiat){
 		}else{
 			lastPrices.set(crypto, prices.get(crypto));
 			prices.set(crypto, jsonPrices[i].price);
+			return true;
+		}
+	}
+}
+
+function getKuCoinPrice(crypto, fiat){
+	for(let i = 0; i < jsonPrices.data.ticker.length; i++){
+		let symbol = crypto + "-" + fiat;
+		let symbol2 = jsonPrices.data.ticker[i].symbol;
+		if(symbol != symbol2){
+			if(i == (jsonPrices.data.ticker.length-1)) return false;
+		}else{
+			lastPrices.set(crypto, prices.get(crypto));
+			prices.set(crypto, jsonPrices.data.ticker[i].last);
 			return true;
 		}
 	}
