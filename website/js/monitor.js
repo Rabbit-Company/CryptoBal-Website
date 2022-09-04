@@ -1,11 +1,4 @@
 var parms = new URLSearchParams(window.location.search);
-
-var jsonPrices = fetchPrices();
-var lastPrices = new Map();
-var prices = new Map();
-
-const stableCoins = ["USDT", "BUSD"];
-
 const IsNumeric = (num) => /^-{0,1}\d*\.{0,1}\d+$/.test(num);
 
 // Settings
@@ -23,6 +16,13 @@ if(sExchange == 2) baseURL = "https://api.kucoin.com/api/v1/market/allTickers";
 // Price
 var lastTotal = 0;
 var total = 0;
+
+// Prices
+var jsonPrices = fetchPrices();
+var lastPrices = new Map();
+var prices = new Map();
+
+const stableCoins = ["USDT", "BUSD"];
 
 if(!sWebSockets){
 	window.setInterval(function() {
