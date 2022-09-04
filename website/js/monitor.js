@@ -131,8 +131,7 @@ function webSocketGetPrice(jsonPrices, crypto, fiat){
 }
 
 function fetchPrices(){
-	fetch(baseURL)
-	.then(response => {
+	fetch(baseURL).then(response => {
 		if (response.ok) return response.json();
 	}).then(json => {
 		jsonPrices = json;
