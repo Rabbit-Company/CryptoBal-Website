@@ -12,6 +12,7 @@ var sGraphReset = (IsNumeric(parms.get("graphReset"))) ? parseFloat(parms.get("g
 //Exchanges
 var baseURL = "https://api.binance.com/api/v3/ticker/price";
 if(sExchange == 2) baseURL = "https://api.kucoin.com/api/v1/market/allTickers";
+if(sExchange == 3) baseURL = "https://api.coingecko.com/api/v3";
 
 // Price
 var lastTotal = 0;
@@ -23,6 +24,8 @@ var lastPrices = new Map();
 var prices = new Map();
 
 const stableCoins = ["USDT", "BUSD"];
+var names = null;
+var ids = "";
 
 if(!sWebSockets){
 	window.setInterval(function() {
@@ -131,6 +134,66 @@ function webSocketGetPrice(jsonPrices, crypto, fiat){
 }
 
 function fetchPrices(){
+
+	if(sExchange == 3){
+		if(names == null){
+			fetch(baseURL+"/coins/list?include_platform=false").then(response => {
+				if (response.ok) return response.json();
+			}).then(json => {
+				names = {};
+				for(let i = 0; i < json.length; i++){
+					if(cryptos.includes(json[i].symbol.toUpperCase())){
+						if(typeof(names[json[i].symbol.toUpperCase()]) == 'undefined') names[json[i].symbol.toUpperCase()] = []; 
+						names[json[i].symbol.toUpperCase()].push(json[i].id);
+					}
+				}
+
+				cryptos.forEach(crypto => {
+					if(typeof(names[crypto]) != 'undefined'){
+						// Get the shortest string from the array
+						names[crypto] = names[crypto].reduce(function(a, b) {
+							return a.length <= b.length ? a : b;
+						});
+
+						ids += names[crypto] + ",";
+					}
+				});
+				ids = ids.slice(0, -1);
+
+				fetch(baseURL+"/simple/price?ids=" + ids + "&vs_currencies=usd").then(response => {
+					if (response.ok) return response.json();
+				}).then(json => {
+					cryptos.forEach(crypto => {
+						if(typeof(names[crypto]) != 'undefined'){
+							lastPrices.set(crypto, prices.get(crypto));
+							prices.set(crypto, json[names[crypto]].usd);
+						}else{
+							lastPrices.set(crypto, 0);
+							prices.set(crypto, 0);
+						}
+					});
+					updateAssets();
+				}).catch();
+			}).catch();
+		}else{
+			fetch(baseURL+"/simple/price?ids=" + ids + "&vs_currencies=usd", {cache: "no-store"}).then(response => {
+				if (response.ok) return response.json();
+			}).then(json => {
+				cryptos.forEach(crypto => {
+					if(typeof(names[crypto]) != 'undefined'){
+						lastPrices.set(crypto, prices.get(crypto));
+						prices.set(crypto, json[names[crypto]].usd);
+					}else{
+						lastPrices.set(crypto, 0);
+						prices.set(crypto, 0);
+					}
+				});
+				updateAssets();
+			}).catch();
+		}
+		return;
+	}
+
 	fetch(baseURL).then(response => {
 		if (response.ok) return response.json();
 	}).then(json => {
