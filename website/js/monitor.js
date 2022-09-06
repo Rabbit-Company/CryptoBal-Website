@@ -13,10 +13,20 @@ var sGraphReset = (IsNumeric(parms.get("graphReset"))) ? parseFloat(parms.get("g
 var baseURL = "https://api.binance.com/api/v3/ticker/price";
 if(sExchange == 2) baseURL = "https://api.kucoin.com/api/v1/market/allTickers";
 if(sExchange == 3) baseURL = "https://api.coingecko.com/api/v3";
+if(sExchange == 4) baseURL = "https://api.exchange.coinbase.com";
 
 // Price
 var lastTotal = 0;
 var total = 0;
+
+function isCrypto(text){
+	if(typeof(text) == 'undefined') return false;
+	if(!text.match(/^[A-Za-z]+$/)) return false;
+	if(!(text.length >= 3 && text.length <= 6)) return false;
+	return true;
+}
+
+let cryptos = Object.keys(localStorage).filter(isCrypto).sort();
 
 // Prices
 var jsonPrices = fetchPrices();
@@ -37,13 +47,6 @@ if(sGraph){
 	window.setInterval(function() {
 		resetChart();
 	}, sGraphReset * 86400000);
-}
-
-function isCrypto(text){
-	if(typeof(text) == 'undefined') return false;
-	if(!text.match(/^[A-Za-z]+$/)) return false;
-	if(!(text.length >= 3 && text.length <= 6)) return false;
-	return true;
 }
 
 if(sWebSockets) startWebSocket();
@@ -134,6 +137,24 @@ function webSocketGetPrice(jsonPrices, crypto, fiat){
 }
 
 function fetchPrices(){
+
+	if(sExchange == 4){
+		for(let i = 0; i < cryptos.length; i++){
+			fetch(baseURL + "/products/" + cryptos[i] + "-USD/ticker").then(response => {
+				if (response.ok) return response.json();
+			}).then(json => {
+				if(typeof(json.price) != 'undefined'){
+					lastPrices.set(cryptos[i], prices.get(cryptos[i]));
+					prices.set(cryptos[i], json.price);
+				}else{
+					lastPrices.set(cryptos[i], 0);
+					prices.set(cryptos[i], 0);
+				}
+				if(i == cryptos.length-1) updateAssets();
+			}).catch();
+		}
+		return;
+	}
 
 	if(sExchange == 3){
 		if(names == null){
@@ -249,8 +270,6 @@ function getKuCoinPrice(crypto, fiat){
 		}
 	}
 }
-
-let cryptos = Object.keys(localStorage).filter(isCrypto).sort();
 
 let html = "";
 cryptos.forEach(crypto => {

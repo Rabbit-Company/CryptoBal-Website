@@ -52,6 +52,12 @@ document.getElementById("add-btn").addEventListener('click', () => {
 
 function calculateSettings(){
 
+	//Coinbase
+	if(document.getElementById("fetch-exchange").value == 4){
+		if(getSwitchState("webSockets")) toggleSwitch("webSockets");
+		document.getElementById("fetch-time").innerHTML = "<option value='1'>1 second</option><option value='2'>2 seconds</option><option value='3'>3 seconds</option><option value='4'>4 seconds</option><option value='5' selected>5 seconds</option><option value='6'>6 seconds</option><option value='7'>7 seconds</option><option value='8'>8 seconds</option><option value='9'>9 seconds</option><option value='10'>10 seconds</option><option value='15'>15 seconds</option><option value='20'>20 seconds</option><option value='30'>30 seconds</option><option value='45'>45 seconds</option><option value='60'>60 seconds</option>";
+	}
+
 	//CoinGecko
 	if(document.getElementById("fetch-exchange").value == 3){
 		if(getSwitchState("webSockets")) toggleSwitch("webSockets");
