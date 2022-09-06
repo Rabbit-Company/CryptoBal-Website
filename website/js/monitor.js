@@ -141,7 +141,9 @@ function fetchPrices(){
 	if(sExchange == 4){
 		for(let i = 0; i < cryptos.length; i++){
 			fetch(baseURL + "/products/" + cryptos[i] + "-USD/ticker").then(response => {
-				return response.json();
+				if (response.ok) return response.json();
+				lastPrices.set(cryptos[i], 0);
+				prices.set(cryptos[i], 0);
 			}).then(json => {
 				if(typeof(json.price) != 'undefined'){
 					lastPrices.set(cryptos[i], prices.get(cryptos[i]));
