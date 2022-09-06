@@ -14,6 +14,7 @@ var baseURL = "https://api.binance.com/api/v3/ticker/price";
 if(sExchange == 2) baseURL = "https://api.kucoin.com/api/v1/market/allTickers";
 if(sExchange == 3) baseURL = "https://api.coingecko.com/api/v3";
 if(sExchange == 4) baseURL = "https://api.exchange.coinbase.com";
+if(sExchange == 5) baseURL = "https://api.wazirx.com/sapi/v1/tickers/24hr";
 
 // Price
 var lastTotal = 0;
@@ -230,7 +231,14 @@ function fetchPrices(){
 }
 
 function getPrices(){
-	if(sExchange == 2){
+	if(sExchange == 5){
+		cryptos.forEach(crypto => {
+			if(!getWazirxPrice(crypto, stableCoins[0])){
+				lastPrices.set(crypto, 0);
+				prices.set(crypto, 0);
+			}
+		});
+	}else if(sExchange == 2){
 		cryptos.forEach(crypto => {
 			if(!getKuCoinPrice(crypto, stableCoins[0])){
 				lastPrices.set(crypto, 0);
@@ -272,6 +280,20 @@ function getKuCoinPrice(crypto, fiat){
 		}else{
 			lastPrices.set(crypto, prices.get(crypto));
 			prices.set(crypto, jsonPrices.data.ticker[i].last);
+			return true;
+		}
+	}
+}
+
+function getWazirxPrice(crypto, fiat){
+	for(let i = 0; i < jsonPrices.length; i++){
+		let symbol = crypto.toLowerCase() + fiat.toLowerCase();
+		let symbol2 = jsonPrices[i].symbol;
+		if(symbol != symbol2){
+			if(i == (jsonPrices.length-1)) return false;
+		}else{
+			lastPrices.set(crypto, prices.get(crypto));
+			prices.set(crypto, jsonPrices[i].lastPrice);
 			return true;
 		}
 	}
