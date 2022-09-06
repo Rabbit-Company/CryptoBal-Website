@@ -52,6 +52,16 @@ document.getElementById("add-btn").addEventListener('click', () => {
 
 function calculateSettings(){
 
+	//CoinCap
+	if(document.getElementById("fetch-exchange").value == 6){
+		if(getSwitchState("webSockets")){
+			document.getElementById("fetch-time").innerHTML = "<option value='0' selected>Real-time</option>";
+		}else{
+			document.getElementById("fetch-time").innerHTML = "<option value='1'>1 second</option><option value='2'>2 seconds</option><option value='3'>3 seconds</option><option value='4'>4 seconds</option><option value='5'>5 seconds</option><option value='6'>6 seconds</option><option value='7'>7 seconds</option><option value='8'>8 seconds</option><option value='9'>9 seconds</option><option value='10'>10 seconds</option><option value='15' selected>15 seconds</option><option value='20'>20 seconds</option><option value='30'>30 seconds</option><option value='45'>45 seconds</option><option value='60'>60 seconds</option>";
+		}
+		return;
+	}
+
 	//Wazirx
 	if(document.getElementById("fetch-exchange").value == 5){
 		if(getSwitchState("webSockets")) toggleSwitch("webSockets");
@@ -62,14 +72,14 @@ function calculateSettings(){
 	//Coinbase
 	if(document.getElementById("fetch-exchange").value == 4){
 		if(getSwitchState("webSockets")) toggleSwitch("webSockets");
-		document.getElementById("fetch-time").innerHTML = "<option value='1'>1 second</option><option value='2'>2 seconds</option><option value='3'>3 seconds</option><option value='4'>4 seconds</option><option value='5' selected>5 seconds</option><option value='6'>6 seconds</option><option value='7'>7 seconds</option><option value='8'>8 seconds</option><option value='9'>9 seconds</option><option value='10'>10 seconds</option><option value='15'>15 seconds</option><option value='20'>20 seconds</option><option value='30'>30 seconds</option><option value='45'>45 seconds</option><option value='60'>60 seconds</option>";
+		document.getElementById("fetch-time").innerHTML = "<option value='1'>1 second</option><option value='2'>2 seconds</option><option value='3' selected>3 seconds</option><option value='4'>4 seconds</option><option value='5'>5 seconds</option><option value='6'>6 seconds</option><option value='7'>7 seconds</option><option value='8'>8 seconds</option><option value='9'>9 seconds</option><option value='10'>10 seconds</option><option value='15'>15 seconds</option><option value='20'>20 seconds</option><option value='30'>30 seconds</option><option value='45'>45 seconds</option><option value='60'>60 seconds</option>";
 		return;
 	}
 
 	//CoinGecko
 	if(document.getElementById("fetch-exchange").value == 3){
 		if(getSwitchState("webSockets")) toggleSwitch("webSockets");
-		document.getElementById("fetch-time").innerHTML = "<option value='120' selected>2 minutes</option><option value='180'>3 minutes</option><option value='240'>4 minutes</option><option value='300'>5 minutes</option><option value='600'>10 minutes</option>";
+		document.getElementById("fetch-time").innerHTML = "<option value='60' selected>1 minute</option><option value='120' selected>2 minutes</option><option value='180'>3 minutes</option><option value='240'>4 minutes</option><option value='300'>5 minutes</option><option value='600'>10 minutes</option>";
 		return;
 	}
 
@@ -88,7 +98,7 @@ function calculateSettings(){
 	if(getSwitchState("webSockets")){
 		document.getElementById("fetch-time").innerHTML = "<option value='1'>1 second</option><option value='3' selected>3 seconds</option>";
 	}else{
-		document.getElementById("fetch-time").innerHTML = "<option value='1'>1 second</option><option value='2'>2 seconds</option><option value='3'>3 seconds</option><option value='4'>4 seconds</option><option value='5' selected>5 seconds</option><option value='6'>6 seconds</option><option value='7'>7 seconds</option><option value='8'>8 seconds</option><option value='9'>9 seconds</option><option value='10'>10 seconds</option><option value='15'>15 seconds</option><option value='20'>20 seconds</option><option value='30'>30 seconds</option><option value='45'>45 seconds</option><option value='60'>60 seconds</option>";
+		document.getElementById("fetch-time").innerHTML = "<option value='1'>1 second</option><option value='2'>2 seconds</option><option value='3' selected>3 seconds</option><option value='4'>4 seconds</option><option value='5'>5 seconds</option><option value='6'>6 seconds</option><option value='7'>7 seconds</option><option value='8'>8 seconds</option><option value='9'>9 seconds</option><option value='10'>10 seconds</option><option value='15'>15 seconds</option><option value='20'>20 seconds</option><option value='30'>30 seconds</option><option value='45'>45 seconds</option><option value='60'>60 seconds</option>";
 	}
 }
 

@@ -15,10 +15,15 @@ if(sExchange == 2) baseURL = "https://api.kucoin.com/api/v1/market/allTickers";
 if(sExchange == 3) baseURL = "https://api.coingecko.com/api/v3";
 if(sExchange == 4) baseURL = "https://api.exchange.coinbase.com";
 if(sExchange == 5) baseURL = "https://api.wazirx.com/sapi/v1/tickers/24hr";
+if(sExchange == 6) baseURL = "https://api.coincap.io/v2/assets?limit=2000";
 
 // Price
 var lastTotal = 0;
 var total = 0;
+
+const stableCoins = ["USDT", "BUSD"];
+var names = null;
+var ids = "";
 
 function isCrypto(text){
 	if(typeof(text) == 'undefined') return false;
@@ -29,14 +34,28 @@ function isCrypto(text){
 
 let cryptos = Object.keys(localStorage).filter(isCrypto).sort();
 
+//Assets IDs
+async function getCoinCapAssetsIds(){
+	const response = await fetch("https://api.coincap.io/v2/assets?limit=2000");
+	const json = await response.json();
+
+	let temp = [];
+	ids="";
+	for(let i = 0; i < json.data.length; i++){
+		if(cryptos.includes(json.data[i].symbol)){
+			temp[json.data[i].symbol] = json.data[i].id;
+			ids += json.data[i].id + ",";
+		}
+	}
+	ids = ids.slice(0, -1);
+
+	return temp;
+}
+
 // Prices
 var jsonPrices = fetchPrices();
 var lastPrices = new Map();
 var prices = new Map();
-
-const stableCoins = ["USDT", "BUSD"];
-var names = null;
-var ids = "";
 
 if(!sWebSockets){
 	window.setInterval(function() {
@@ -53,9 +72,36 @@ if(sGraph){
 if(sWebSockets) startWebSocket();
 
 function startWebSocket(){
-	let stream = (sFetch == 1) ? "!markPrice@arr@1s" : "!markPrice@arr";
 
-	if(sExchange == 2){
+	if(sExchange == 6){
+
+		getCoinCapAssetsIds().then(value => {
+			const socket = new WebSocket('wss://ws.coincap.io/prices?assets=' + ids);
+
+			socket.addEventListener('open', function (event) {
+				console.log("WebSocket oppened at " + new Date().toLocaleString());
+			});
+		
+			socket.addEventListener('close', function (event) {
+				console.log("WebSocket closed at " + new Date().toLocaleString());
+			});
+
+			socket.addEventListener('message', function (event) {
+				let data = JSON.parse(event.data);
+
+				for(let i = 0; i < Object.keys(data).length; i++){
+					cryptos.forEach(crypto => {
+						if(value[crypto] == Object.keys(data)[i]){
+							lastPrices.set(crypto, prices.get(crypto));
+							prices.set(crypto, data[Object.keys(data)[i]]);
+							updateAssets();
+						}
+					});
+				}
+			});
+		});
+
+	}else if(sExchange == 2){
 		let connectId = Math.random().toString(36).slice(2);
 		fetch("https://api.kucoin.com/api/v1/bullet-public", { method: 'POST' })
 		.then(response => {
@@ -98,6 +144,7 @@ function startWebSocket(){
 			});
 		}).catch();
 	}else{
+		let stream = (sFetch == 1) ? "!markPrice@arr@1s" : "!markPrice@arr";
 		const socket = new WebSocket('wss://fstream.binance.com/ws/' + stream);
 
 		socket.addEventListener('open', function (event) {
@@ -231,7 +278,14 @@ function fetchPrices(){
 }
 
 function getPrices(){
-	if(sExchange == 5){
+	if(sExchange == 6){
+		cryptos.forEach(crypto => {
+			if(!getCoinCapPrice(crypto)){
+				lastPrices.set(crypto, 0);
+				prices.set(crypto, 0);
+			}
+		});
+	}else if(sExchange == 5){
 		cryptos.forEach(crypto => {
 			if(!getWazirxPrice(crypto, stableCoins[0])){
 				lastPrices.set(crypto, 0);
@@ -294,6 +348,19 @@ function getWazirxPrice(crypto, fiat){
 		}else{
 			lastPrices.set(crypto, prices.get(crypto));
 			prices.set(crypto, jsonPrices[i].lastPrice);
+			return true;
+		}
+	}
+}
+
+function getCoinCapPrice(crypto){
+	for(let i = 0; i < jsonPrices.data.length; i++){
+		let symbol2 = jsonPrices.data[i].symbol;
+		if(crypto != symbol2){
+			if(i == (jsonPrices.data.length-1)) return false;
+		}else{
+			lastPrices.set(crypto, prices.get(crypto));
+			prices.set(crypto, jsonPrices.data[i].priceUsd);
 			return true;
 		}
 	}
