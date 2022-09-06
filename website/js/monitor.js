@@ -150,8 +150,12 @@ function fetchPrices(){
 					lastPrices.set(cryptos[i], 0);
 					prices.set(cryptos[i], 0);
 				}
+			}).catch(err => {
+				lastPrices.set(cryptos[i], 0);
+				prices.set(cryptos[i], 0);
+			}).finally(() => {
 				if(i == cryptos.length-1) updateAssets();
-			}).catch();
+			});
 		}
 		return;
 	}
