@@ -125,6 +125,9 @@ function startWebSocket(){
 				window.setInterval(function() {
 					socket.send('{"id":"' + connectId + '","type":"ping"}');
 				}, pingInterval);
+				window.setInterval(function() {
+					updateAssets();
+				}, 1000);
 			});
 		
 			socket.addEventListener('close', function (event) {
@@ -139,7 +142,6 @@ function startWebSocket(){
 					
 					lastPrices.set(crypto, prices.get(crypto));
 					prices.set(crypto, price);
-					updateAssets();
 				}
 			});
 		}).catch();
@@ -407,16 +409,24 @@ var chartData = {
 				label: "Total Assets",
 				backgroundColor: "#00ff00",
 				borderColor: "#1e894b",
-				data: []
+				data: [],
+				normalized: true
 			},
 		]
 	},
 	options: {
+		spanGaps: true,
 		elements: {
 			point:{
 				radius: 0,
 				hitRadius: 10,
 				hoverRadius: 5
+			}
+		},
+		plugins: {
+			decimation: {
+				enabled: true,
+				algorithm: "lttb"
 			}
 		}
 	}
