@@ -18,7 +18,7 @@ document.getElementById("start-btn").addEventListener('click', () => {
 	window.location = url;
 });
 
-document.getElementById("fetch-exchange").addEventListener('click', () => {
+document.getElementById("fetch-exchange").addEventListener('change', () => {
 	calculateSettings();
 });
 
