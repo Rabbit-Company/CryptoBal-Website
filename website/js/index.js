@@ -105,7 +105,7 @@ function updateTable(){
 	let cryptos = Object.keys(localStorage).filter(isCrypto).sort();
 	let html = "";
 	cryptos.forEach(crypto => {
-		html += "<tr><td class='px-4 py-4 whitespace-nowrap'><div class='flex items-center'><div class='flex-shrink-0 h-10 w-10'><img class='h-10 w-10 rounded-full' src='images/cryptos/" + crypto + ".png' onerror='imgError(this);'></div></div></td><td class='px-4 py-4 whitespace-nowrap text-sm text-gray-400'>" + crypto + "</td><td class='px-4 py-4 whitespace-nowrap text-sm text-gray-400'>" + localStorage.getItem(crypto) + "</td><td class='px-4 py-4 whitespace-nowrap text-left'><button id='remove-" + crypto + "' type='button' class='inline-flex items-center px-3 py-2 border border-gray-600 text-sm leading-4 font-medium rounded-md shadow-sm text-gray-400 bg-gray-700 hover:bg-gray-600 focus:outline-none'>Remove</button></td></tr>";
+		html += "<tr><td class='px-4 py-4 whitespace-nowrap'><div class='flex items-center'><div class='flex-shrink-0 h-10 w-10'><img class='h-10 w-10 rounded-full' src='images/cryptos/" + crypto + ".png'></div></div></td><td class='px-4 py-4 whitespace-nowrap text-sm text-gray-400'>" + crypto + "</td><td class='px-4 py-4 whitespace-nowrap text-sm text-gray-400'>" + localStorage.getItem(crypto) + "</td><td class='px-4 py-4 whitespace-nowrap text-left'><button id='remove-" + crypto + "' type='button' class='inline-flex items-center px-3 py-2 border border-gray-600 text-sm leading-4 font-medium rounded-md shadow-sm text-gray-400 bg-gray-700 hover:bg-gray-600 focus:outline-none'>Remove</button></td></tr>";
 	});
 	document.getElementById("cryptos").innerHTML = html;
 

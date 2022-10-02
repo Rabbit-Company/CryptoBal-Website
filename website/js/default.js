@@ -44,10 +44,4 @@ function copyToClipboard(text){
     document.body.removeChild(textArea);
 }
 
-function imgError(image){
-    image.onerror = "";
-    image.src = "images/ghost.gif";
-    return true;
-}
-
 const IsNumeric = (num) => /^-{0,1}\d*\.{0,1}\d+$/.test(num);
