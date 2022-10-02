@@ -2,5 +2,5 @@
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   X-XSS-Protection: 1; mode=block
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://analytics.rabbit-company.com; style-src 'self'; object-src 'none'; base-uri 'self'; connect-src https://analytics.rabbit-company.com https://api.binance.com wss://fstream.binance.com https://api.kucoin.com https://api.coingecko.com https://api.exchange.coinbase.com https://api.wazirx.com https://api.coincap.io wss://ws.coincap.io; font-src 'self'; frame-src 'self'; img-src 'self'; manifest-src 'self'; media-src 'self'; worker-src 'none'; frame-ancestors 'none';
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://analytics.rabbit-company.com 'sha256-c6f71f6b7c47832df69e39433e95c295dd7153d36906ea495842a075192880c5'; style-src 'self'; object-src 'none'; base-uri 'self'; connect-src https://analytics.rabbit-company.com https://api.binance.com wss://fstream.binance.com https://api.kucoin.com https://api.coingecko.com https://api.exchange.coinbase.com https://api.wazirx.com https://api.coincap.io wss://ws.coincap.io; font-src 'self'; frame-src 'self'; img-src 'self'; manifest-src 'self'; media-src 'self'; worker-src 'none'; frame-ancestors 'none';
   Permissions-Policy: interest-cohort=()
