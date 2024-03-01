@@ -8,6 +8,9 @@ var sWebSockets = (parms.get("webSockets") == "true") ? true : false;
 var sFetch = (IsNumeric(parms.get("fetch"))) ? parseFloat(parms.get("fetch")) : 5;
 var sGraph = (parms.get("graph") == "false") ? false : true;
 var sGraphReset = (IsNumeric(parms.get("graphReset"))) ? parseFloat(parms.get("graphReset")) : 1;
+var sGraphRecords = (IsNumeric(parms.get("graphRecords"))) ? parseFloat(parms.get("graphRecords")) : 1000;
+
+if(sGraphRecords < 50) sGraphRecords = 50;
 
 //Exchanges
 var baseURL = "https://api.binance.com/api/v3/ticker/price";
@@ -81,7 +84,7 @@ function startWebSocket(){
 			socket.addEventListener('open', function (event) {
 				console.log("WebSocket oppened at " + new Date().toLocaleString());
 			});
-		
+
 			socket.addEventListener('close', function (event) {
 				console.log("WebSocket closed at " + new Date().toLocaleString());
 			});
@@ -129,7 +132,7 @@ function startWebSocket(){
 					updateAssets();
 				}, 1000);
 			});
-		
+
 			socket.addEventListener('close', function (event) {
 				console.log("WebSocket closed at " + new Date().toLocaleString());
 			});
@@ -139,7 +142,7 @@ function startWebSocket(){
 				if(data.subject == "trade.ticker"){
 					let crypto = data.topic.replace("/market/ticker:", "").replace("-USDT", "");
 					let price = data.data.price;
-					
+
 					lastPrices.set(crypto, prices.get(crypto));
 					prices.set(crypto, price);
 				}
@@ -152,12 +155,12 @@ function startWebSocket(){
 		socket.addEventListener('open', function (event) {
 			console.log("WebSocket oppened at " + new Date().toLocaleString());
 		});
-	
+
 		socket.addEventListener('close', function (event) {
 			console.log("WebSocket closed at " + new Date().toLocaleString());
 			startWebSocket();
 		});
-		
+
 		socket.addEventListener('message', function (event) {
 			jsonPrices = JSON.parse(event.data);
 			cryptos.forEach(crypto => {
@@ -220,7 +223,7 @@ function fetchPrices(){
 				names = {};
 				for(let i = 0; i < json.length; i++){
 					if(cryptos.includes(json[i].symbol.toUpperCase())){
-						if(typeof(names[json[i].symbol.toUpperCase()]) == 'undefined') names[json[i].symbol.toUpperCase()] = []; 
+						if(typeof(names[json[i].symbol.toUpperCase()]) == 'undefined') names[json[i].symbol.toUpperCase()] = [];
 						names[json[i].symbol.toUpperCase()].push(json[i].id);
 					}
 				}
@@ -315,7 +318,7 @@ function getPrices(){
 
 function getPrice(crypto, fiat){
 	for(let i = 0; i < jsonPrices.length; i++){
-		let symbol = crypto + fiat; 
+		let symbol = crypto + fiat;
 		let symbol2 = jsonPrices[i].symbol;
 		if(symbol != symbol2){
 			if(i == (jsonPrices.length-1)) return false;
@@ -441,6 +444,12 @@ if(!sGraph) document.getElementById("graph").innerHTML = "";
 if(sGraph) chart = new Chart(document.getElementById("chart"), chartData);
 
 function updateChart(){
+
+	if(chartData.data.labels.length > sGraphRecords){
+		chartData.data.labels = chartData.data.labels.filter((_, i) => i % 2 === 0);
+		chartData.data.datasets[0].data = chartData.data.datasets[0].data.filter((_, i) => i % 2 === 0);
+	}
+
 	let date = new Date();
 	chartData.data.labels.push(String(date.getHours()).padStart(2, "0") + ":" + String(date.getMinutes()).padStart(2, "0") + ":" + String(date.getSeconds()).padStart(2, "0"));
 	chartData.data.datasets[0].data.push(total);

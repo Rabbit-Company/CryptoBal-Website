@@ -173,6 +173,21 @@
 			</div>
 
 			<div class="max-w-md mt-3 flex flex-col">
+				<label for="graph-records" class="block text-sm font-medium text-gray-300">Keep only</label>
+				<select id="graph-records" name="graph-records" class="mt-1 block w-full pl-3 pr-10 py-2 text-base bg-gray-600 text-gray-300 border-gray-400 focus:outline-none sm:text-sm rounded-md">
+					<option value="50">50 records</option>
+					<option value="100">100 records</option>
+					<option value="250">250 records</option>
+					<option value="500">500 records</option>
+					<option value="1000" selected>1000 records</option>
+					<option value="2500">2500 records</option>
+					<option value="5000">5000 records</option>
+					<option value="7500">7500 records</option>
+					<option value="10000">10000 records</option>
+				</select>
+			</div>
+
+			<div class="max-w-md mt-3 flex flex-col">
 				<label for="graph-reset" class="block text-sm font-medium text-gray-300">Reset graph every</label>
 				<select id="graph-reset" name="graph-reset" class="mt-1 block w-full pl-3 pr-10 py-2 text-base bg-gray-600 text-gray-300 border-gray-400 focus:outline-none sm:text-sm rounded-md">
 					<option value="1" selected>1 day</option>

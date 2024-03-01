@@ -1,15 +1,15 @@
 document.getElementById("main-menu-btn").addEventListener("click", () => {
-    if(document.getElementById("mobile-menu").className == "sm:hidden hidden"){
-        document.getElementById("mobile-menu").className = "sm:hidden";
-        document.getElementById("main-menu-icon").innerHTML = "<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 18L18 6M6 6l12 12' />";
-        return;
-    }
-    document.getElementById("mobile-menu").className = "sm:hidden hidden";
-    document.getElementById("main-menu-icon").innerHTML = "<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h16M4 12h16M4 18h16' />";
+	if(document.getElementById("mobile-menu").className == "sm:hidden hidden"){
+		document.getElementById("mobile-menu").className = "sm:hidden";
+		document.getElementById("main-menu-icon").innerHTML = "<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M6 18L18 6M6 6l12 12' />";
+		return;
+	}
+	document.getElementById("mobile-menu").className = "sm:hidden hidden";
+	document.getElementById("main-menu-icon").innerHTML = "<path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 6h16M4 12h16M4 18h16' />";
 });
 
 function toggleSwitch(id){
-    let button = document.getElementById(id + "-btn");
+	let button = document.getElementById(id + "-btn");
 	let animation = document.getElementById(id + "-animation");
 	if(button.ariaChecked == "false"){
 		button.ariaChecked = "true";
@@ -23,25 +23,25 @@ function toggleSwitch(id){
 }
 
 function getSwitchState(id){
-    let button = document.getElementById(id + "-btn");
-    return (button.ariaChecked == "true") ? true : false;
+	let button = document.getElementById(id + "-btn");
+	return (button.ariaChecked == "true") ? true : false;
 }
 
 function copyToClipboard(text){
-    let textArea = document.createElement("textarea");
-    textArea.value = text;
+	let textArea = document.createElement("textarea");
+	textArea.value = text;
 
-    textArea.style.top = 0;
-    textArea.style.left = 0;
-    textArea.style.position = "fixed";
+	textArea.style.top = 0;
+	textArea.style.left = 0;
+	textArea.style.position = "fixed";
 
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
+	document.body.appendChild(textArea);
+	textArea.focus();
+	textArea.select();
 
-    document.execCommand('copy');
+	document.execCommand('copy');
 
-    document.body.removeChild(textArea);
+	document.body.removeChild(textArea);
 }
 
 const IsNumeric = (num) => /^-{0,1}\d*\.{0,1}\d+$/.test(num);

@@ -13,6 +13,7 @@ document.getElementById("start-btn").addEventListener('click', () => {
 	url += "&webSockets=" + document.getElementById("webSockets-btn").ariaChecked;
 	url += "&fetch=" + document.getElementById("fetch-time").value;
 	url += "&graph=" + document.getElementById("graph-btn").ariaChecked;
+	url += "&graphRecords=" + document.getElementById("graph-records").value;
 	url += "&graphReset=" + document.getElementById("graph-reset").value;
 
 	window.location = url;
