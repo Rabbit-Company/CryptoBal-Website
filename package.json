@@ -1,6 +1,6 @@
 {
   "name": "cryptobal",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Website for monitoring your crypto balance.",
   "main": "index.js",
   "scripts": {
